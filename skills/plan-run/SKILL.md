@@ -1,17 +1,17 @@
 ---
 name: plan-run
-description: 執行開發計劃。當用戶說「執行計劃」、「開始 xxx 計劃」或提到要執行 storage/plans 目錄下的計劃檔案時使用
+description: Run a development plan. Use this when the user says "run the plan", "start the xxx plan", or talks about running a plan file in the storage/plans directory.
 ---
 
-# 開發計劃
-## 計劃
-讀取 `$ARGUMENTS.md` 檔案或資料夾，仔細閱讀並執行開發計劃
+# Development Plan
+## Plan
+Read the `$ARGUMENTS.md` file or folder. Read it with care and run the development plan.
 
-## 開發計劃注意事項
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 若適合的話，盡量使用 PHP Attribute 和 Laravel Attribute 取代舊的寫法
-- 修改前務必仔細研究現有程式碼
-- 在建立開發計劃時，務必確保本次計劃不會造成現有功能的損壞
-- 永遠不要假設你知道使用者的意圖，若有任何不清楚的內容，必須先問清楚再執行
-- 永遠確保程式碼符合 SOLID/IoC 原則
-- 如果計劃內有多個 `*.md` 文件，應根據計劃順序獨立執行這些計劃
+## Development Plan Notes
+- When you write code, take care that it is easy to test, easy to read, and low coupled
+- When it fits, use PHP Attribute and Laravel Attribute in place of old ways
+- Study the current code with care before you make changes
+- When you build the development plan, make sure this plan does not break any current feature
+- Never assume you know what the user wants. If anything is not clear, ask first before you act.
+- Always make sure the code follows the SOLID/IoC rules
+- If the plan has many `*.md` files, run these plans one by one in the plan order

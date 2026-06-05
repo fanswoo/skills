@@ -1,55 +1,55 @@
 ---
 name: filament-run
-description: Filament 開發注意事項。當撰寫或修改 Filament 相關程式碼時自動套用，確保遵循專案特定的 Filament 慣例；包含 RelationManager 撰寫規範（使用 $relatedResource 模式且禁止在 RelationManager 中撰寫任何內容）
+description: Notes for Filament work. Use it on its own when you write or change Filament code, to keep the project's own Filament ways. It covers the RelationManager writing rule (use the $relatedResource way and do not write any body content in the RelationManager).
 ---
 
-# Filament 開發注意事項
+# Notes for Filament Work
 
-## 元件使用規範
+## Component Use Rules
 
-1. **禁止使用 `Placeholder`** — 應使用 `TextEntry` 取代。當需要顯示唯讀資訊時，使用 `TextEntry` 而非 `Placeholder`。
+1. **Do not use `Placeholder`** — use `TextEntry` instead. When you need to show read-only info, use `TextEntry`, not `Placeholder`.
 
-## Resource 放置規範
+## Resource Placement Rules
 
-2. **禁止建立巢狀 Resources 資料夾** — 所有繼承 `Filament\Resources\Resource` 的類別只能放在 `App\Admin\Resources` 或 `App\UserCenter\Resources` 目錄下，不可在子資料夾中再建立 `Resources/` 目錄。例如 `App\Admin\Resources\Quotations\Resources\QuotationItems\Resources\` 這樣的巢狀結構是禁止的。
+2. **Do not make nested Resources folders** — every class that extends `Filament\Resources\Resource` can only sit under `App\Admin\Resources` or `App\UserCenter\Resources`. You may not make another `Resources/` folder inside a sub-folder. For example, a nested shape like `App\Admin\Resources\Quotations\Resources\QuotationItems\Resources\` is not allowed.
 
-## Action 鉤子規範
+## Action Hook Rules
 
-3. **禁止在 Action 上掛載鉤子** — `EditAction`、`DeleteAction`、`CreateAction` 等按鈕上不可撰寫 `before()`、`after()`、`successRedirectUrl()` 等鉤子。如果需要鉤子邏輯，應寫在對應的 Page 類別中（如 `EditPage`、`CreatePage`），使用 Page 提供的 `afterSave()`、`afterCreate()`、`afterDelete()` 等方法。
+3. **Do not put hooks on an Action** — buttons like `EditAction`, `DeleteAction`, `CreateAction` may not have `before()`, `after()`, `successRedirectUrl()` or other hooks. If you need hook logic, write it in the matching Page class (like `EditPage`, `CreatePage`), using the Page methods such as `afterSave()`, `afterCreate()`, `afterDelete()`.
 
-## Activity Log 規範
+## Activity Log Rules
 
-4. **Activity Log 使用 pxlrbt 套件** — 需要實作 activity log 時，應使用 `\pxlrbt\FilamentActivityLog\Pages\ListActivities` 類別，不可自行實作 activity log 頁面。
+4. **Activity Log uses the pxlrbt package** — when you need an activity log, use the `\pxlrbt\FilamentActivityLog\Pages\ListActivities` class. Do not write your own activity log page.
 
-## Filament v5 Namespace 規範
+## Filament v5 Namespace Rules
 
-5. **Actions 必須使用 `Filament\Actions` namespace** — Filament v5 中所有 Action 類別（`EditAction`、`DeleteAction`、`CreateAction`、`ViewAction`、`BulkAction` 等）統一位於 `Filament\Actions\` 下。**禁止使用** `Filament\Tables\Actions\`、`Filament\Forms\Actions\` 等舊版 namespace，這些在 v5 中已不存在。
+5. **Actions must use the `Filament\Actions` namespace** — in Filament v5 all Action classes (`EditAction`, `DeleteAction`, `CreateAction`, `ViewAction`, `BulkAction`, and so on) sit under `Filament\Actions\`. **Do not use** the old namespaces like `Filament\Tables\Actions\` or `Filament\Forms\Actions\`; they no longer exist in v5.
 
-## Select 元件規範
+## Select Component Rules
 
-6. **`Select` 元件應給予預設值** — 使用 `Select` 時應以 `default()` 設定預設值，避免出現空白未選取狀態。若情境不適合給預設值（例如必須由使用者主動選擇），則應改加上 `selectablePlaceholder()`，明確提供可選的 placeholder 選項。
+6. **A `Select` component should have a default value** — when you use `Select`, set a default value with `default()` to avoid a blank, not-picked state. If a default value does not fit the case (for example, the user must pick on their own), then add `selectablePlaceholder()` to clearly give a placeholder option to pick.
 
 ---
 
-# Filament RelationManager 撰寫規範
+# Filament RelationManager Writing Rule
 
-## 核心原則
+## Core Rule
 
-**RelationManager 只能包含屬性宣告，絕對禁止撰寫任何方法或邏輯。所有內容（表單、表格、Actions、篩選器等）都必須定義在 `$relatedResource` 指向的 Resource 及其 Schemas/、Tables/ 目錄下。**
+**A RelationManager may only hold property declarations. It must never have any method or logic. All content (form, table, Actions, filters, and so on) must be set in the Resource that `$relatedResource` points to, and under its Schemas/, Tables/ folders.**
 
-## 必要屬性
+## Required Properties
 
-每個 RelationManager 必須定義以下屬性：
+Every RelationManager must set these properties:
 
 ```php
-protected static ?string $relatedResource = SomeResource::class; // 必要：指向對應 Resource
-protected static string $relationship = 'relationshipName';       // 必要：Eloquent 關聯名稱
-protected static ?string $title = '顯示名稱';                      // 選填：UI 顯示標題
+protected static ?string $relatedResource = SomeResource::class; // required: points to the matching Resource
+protected static string $relationship = 'relationshipName';       // required: the Eloquent relationship name
+protected static ?string $title = 'Display Name';                 // optional: the UI title
 ```
 
-## 唯一允許的寫法
+## The Only Allowed Form
 
-RelationManager 只允許以下形式，不得有任何額外方法：
+A RelationManager may only take the form below. It may not have any extra method:
 
 ```php
 <?php
@@ -65,37 +65,37 @@ class SomeChildrenRelationManager extends RelationManager
 
     protected static string $relationship = 'someChildren';
 
-    protected static ?string $title = '子項目';
+    protected static ?string $title = 'Child Items';
 }
 ```
 
-## 嚴格禁止事項
+## Strict Do-Not List
 
-在 RelationManager 中**絕對禁止**以下行為：
+Inside a RelationManager, these are **never allowed**:
 
-1. **禁止定義 `table()` 方法** — 表格設定（欄位、Actions、篩選器）必須在 `$relatedResource` 對應的 Tables/ 目錄下定義
-2. **禁止定義 `form()` 方法** — 表單必須在 `$relatedResource` 對應的 Schemas/ 目錄下定義
-3. **禁止定義任何 Actions** — headerActions、recordActions 必須在 Resource 的 Table 設定中定義
-4. **禁止撰寫業務邏輯** — 所有業務邏輯應放在 Service、Repository 或 Form Schema 的 mutate 方法中
-5. **禁止定義查詢修改（modifyQueryUsing）** — 查詢修改應在 Resource 的 Table 設定中處理
-6. **禁止沒有 `$relatedResource`** — 每個 RelationManager 都必須有對應的 Resource
-7. **禁止定義任何方法** — RelationManager 只能有屬性宣告
+1. **Do not set a `table()` method** — table setup (columns, Actions, filters) must be set under the `Tables/` folder of the matching `$relatedResource`.
+2. **Do not set a `form()` method** — the form must be set under the `Schemas/` folder of the matching `$relatedResource`.
+3. **Do not set any Actions** — headerActions, recordActions must be set in the Table setup of the Resource.
+4. **Do not write business logic** — all business logic should sit in a Service, a Repository, or the mutate method of a Form Schema.
+5. **Do not set a query change (modifyQueryUsing)** — query changes should be handled in the Table setup of the Resource.
+6. **Do not leave out `$relatedResource`** — every RelationManager must have a matching Resource.
+7. **Do not set any method** — a RelationManager may only have property declarations.
 
-## 邏輯應放置的位置
+## Where Logic Should Go
 
-| 邏輯類型 | 正確位置 |
+| Logic Type | Right Place |
 |---------|---------|
-| 表單欄位 | `$relatedResource` 的 `Schemas/SomeForm.php` |
-| 表格欄位 | `$relatedResource` 的 `Tables/SomeTable.php` |
-| headerActions / recordActions | `$relatedResource` 的 `Tables/SomeTable.php` |
-| 篩選器 | `$relatedResource` 的 `Filters/` 目錄 |
-| 資料變換 | Form Schema 的靜態 `mutateFormDataBeforeCreate()` 方法 |
-| 業務邏輯 | Service 或 Repository 類別 |
+| Form fields | `Schemas/SomeForm.php` of the `$relatedResource` |
+| Table columns | `Tables/SomeTable.php` of the `$relatedResource` |
+| headerActions / recordActions | `Tables/SomeTable.php` of the `$relatedResource` |
+| Filters | the `Filters/` folder of the `$relatedResource` |
+| Data change | the static `mutateFormDataBeforeCreate()` method of the Form Schema |
+| Business logic | a Service or Repository class |
 
-## 檢查清單
+## Checklist
 
-撰寫 RelationManager 前，確認：
-- [ ] 對應的 Resource 類別已存在（若不存在，先建立）
-- [ ] Resource 的 Form Schema 已定義在 `Schemas/` 目錄
-- [ ] Resource 的 Table 已定義在 `Tables/` 目錄（包含所需的 Actions）
-- [ ] RelationManager 中**只有**屬性宣告，沒有任何方法
+Before you write a RelationManager, make sure:
+- [ ] The matching Resource class already exists (if not, make it first).
+- [ ] The Form Schema of the Resource is set in the `Schemas/` folder.
+- [ ] The Table of the Resource is set in the `Tables/` folder (with the Actions it needs).
+- [ ] The RelationManager has **only** property declarations, no method at all.

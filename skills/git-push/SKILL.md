@@ -1,24 +1,24 @@
 ---
 name: git-push
-description: Git 提交並推送。當用戶說「提交」、「commit」、「push」、「推上去」、「git push」或需要將變更提交並推送到遠端時使用
+description: Git commit and push. Use this when the user says "commit", "push", "git push", or needs to commit changes and push them to the remote.
 ---
 
-# Git 提交並推送
+# Git Commit and Push
 
-## 流程
+## Steps
 
-1. 執行 `git status` 檢視目前變更
-2. 執行 `git diff --staged` 和 `git diff` 檢視變更內容
-3. 執行 `git log --oneline -5` 檢視最近的 commit 風格
-4. 根據變更內容，產生簡潔的 commit message（以本專案既有的 commit 風格為準）
-5. 如果用戶有提供 `$ARGUMENTS`，則以用戶提供的內容作為 commit message
-6. 直接執行，不需要向用戶確認：
-   - `git add -A`（加入所有變更，包含未暫存的修改和未追蹤的新檔案）
+1. Run `git status` to see the current changes
+2. Run `git diff --staged` and `git diff` to see what changed
+3. Run `git log --oneline -5` to see the recent commit style
+4. Based on the changes, write a short commit message (follow the commit style this project already uses)
+5. If the user gives `$ARGUMENTS`, use that text as the commit message
+6. Run these right away, with no need to ask the user:
+   - `git add -A` (add all changes, both unstaged edits and new untracked files)
    - `git commit -m "message"`
    - `git push`
 
-## 注意事項
-- 必須提交所有變更（staged + unstaged + untracked），不可只挑選部分檔案
-- 如果沒有任何變更，告知用戶「沒有需要提交的變更」並停止
-- 不要提交含有敏感資訊的檔案（.env、credentials 等）
-- commit message 使用英文，簡潔描述變更內容
+## Notes
+- You must commit all changes (staged + unstaged + untracked). Do not pick only some files.
+- If there are no changes, tell the user "There are no changes to commit" and stop.
+- Do not commit files with secret data (.env, credentials, and so on).
+- Write the commit message in English. Keep it short and clear.

@@ -1,33 +1,33 @@
 ---
 name: change-database-to-default-rule
-description: 將資料表和欄位名稱轉換為 snake_case。當用戶說「轉換 snake case」、「改成 snake_case」、「資料庫命名規則」或需要將資料表欄位改為 Laravel 標準命名時使用
+description: Change table and column names to snake_case. Use it when the user says "change to snake case", "make it snake_case", "database naming rule", or needs to change table columns to the Laravel standard names.
 ---
 
-# 轉換資料表至 snake case
+# Change a Table to snake case
 
-## 需求
- - 讀取 $ARGUMENTS 類別，並將其 database 欄位改為 snake_case 命名規則
- - 調整所有對 $ARGUMENTS 類別的引用，以符合新的命名規則
+## Need
+ - Read the $ARGUMENTS class, and change its database columns to the snake_case naming rule.
+ - Change every reference to the $ARGUMENTS class so it fits the new naming rule.
 
-## 功能說明
+## What It Does
 
-### 建立 migration
-- 資料庫名稱應改為 snake_case，且為複數形式
-- 欄位名稱應改為 snake_case
+### Make a migration
+- The database name should change to snake_case, and to the plural form.
+- The column names should change to snake_case.
 
-### 修改 $ARGUMENTS 類別的 $table 屬性:
-- 資料庫名稱應改為 snake_case，且為複數形式
+### Change the $table property of the $ARGUMENTS class:
+- The database name should change to snake_case, and to the plural form.
 
-### 修改 $ARGUMENTS 類別的欄位名稱:
-- 欄位名稱應改為 snake_case
+### Change the column names of the $ARGUMENTS class:
+- The column names should change to snake_case.
 
-### 檢查所有檔案中對 $ARGUMENTS 類別的引用
-- 應更新所有該 Eloquent 欄位名稱被其它類別使用的狀況，並注意該欄位在其它 Eloquent 關聯中也可能被引用
-- 切記檢查並不限於以下資料夾:
+### Check every file for references to the $ARGUMENTS class
+- You should update every spot where this Eloquent column name is used by other classes. Note that the column may also be used in other Eloquent relationships.
+- Keep in mind the check is not limited to these folders:
  - app/
  - resources/
  - tests/
 
-## 注意事項
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 若適合的話，盡量使用 PHP Attribute 和 Laravel Attribute 取代舊的寫法
+## Notes
+- When you write code, pay special heed to how easy it is to test, how easy it is to read, and how low the coupling is.
+- When it fits, try to use PHP Attribute and Laravel Attribute in place of the old way.

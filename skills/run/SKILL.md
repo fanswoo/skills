@@ -1,24 +1,24 @@
 ---
 name: run
-description: 執行開發任務。當用戶說「執行 xxx」、「修改 xxx」、「開發 xxx」、「fix xxx」或需要按照 SOLID/IoC 原則進行程式碼修改時使用
+description: Do a dev task. Use it when the user says "run xxx", "change xxx", "build xxx", "fix xxx", or needs code changes that follow the SOLID/IoC rules.
 ---
 
-# 開發任務
-## 計劃
+# Dev Task
+## Plan
 `$ARGUMENTS`
 
-## 注意事項
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 若適合的話，盡量使用 PHP Attribute 和 Laravel Attribute 取代舊的寫法
-- 修改前務必仔細研究現有程式碼
-- 在修改程式碼時，務必確保本次修改不會造成現有功能的損壞
-- 每次修改程式碼後，務必確保沒有留下任何未使用的類別、變數或函式
-- 永遠不要假設你知道使用者的意圖，若有任何不清楚的內容，必須先問清楚再執行
-- 永遠確保程式碼符合 SOLID/IoC 原則
-- 先說明執行計劃以後再執行
+## Notes
+- When you write code, pay special heed to how easy it is to test, how easy it is to read, and how low the coupling is.
+- When it fits, try to use PHP Attribute and Laravel Attribute in place of the old way.
+- Before you change anything, always study the current code with care.
+- When you change code, always make sure this change does not break a feature that already works.
+- After each code change, always make sure you leave no unused class, variable, or function behind.
+- Never assume you know what the user wants. If anything is not clear, you must ask first before you run.
+- Always make sure the code follows the SOLID/IoC rules.
+- Tell the run plan first, then run it.
 
-### 重要編譯事項
-開發人員會主動開啟編譯模式，永遠不應主動執行編譯動作。如果真的需要編譯，最多只允許你"提醒開發人員編譯"
+### Important Build Note
+The dev person will start the build mode on their own. You should never run the build on your own. If a build is truly needed, the most you may do is "remind the dev person to build".
 ```bash
 npm run build
 ```

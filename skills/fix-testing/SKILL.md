@@ -1,18 +1,18 @@
 ---
 name: fix-testing
-description: 修復測試。當用戶說「測試失敗」、「修復測試」、「test failed」、「fix test」或需要修正特定類別的測試時使用
+description: Fix tests. Use this when the user says "test failed", "fix test", or needs to fix the tests for a given class.
 ---
 
-# 修復測試
-## 需求
-修正 `$ARGUMENTS` 類別的測試
+# Fix Tests
+## Need
+Fix the tests for the `$ARGUMENTS` class
 
-## 操作守則
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 先執行一次測試指令，仔細搜尋出錯的測試位置以後，明確列出錯誤原因，務必等確認問題後，再進行修改
-- 非必要的話，不要修改 testing 本身的程式碼，而是修改測試內容
-- 禁止同時開啟多個測試，避免多個測試互相干擾
+## Rules
+- When you write code, take care that it is easy to test, easy to read, and low coupled
+- First run the test command once. Find where the test fails with care, then clearly list the cause of the error. You must confirm the problem before you make changes.
+- Unless it is needed, do not change the testing code itself. Change the test content instead.
+- Do not run many tests at the same time, so the tests do not get in each other's way
 
-## 提示
-- 使用 context7 查詢 laravel v11 及 dusk 使用方式，避免使用不存在的方法
-- 後台管理使用 filament v5，如果需要修改後台相關測試，請查詢 filament v5 的使用方式
+## Tips
+- Use context7 to look up how laravel v11 and dusk work, so you do not use a method that does not exist
+- The back office uses filament v5. If you need to change back office tests, look up how filament v5 works.

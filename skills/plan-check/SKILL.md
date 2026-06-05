@@ -1,40 +1,40 @@
 ---
 name: plan-check
-description: 檢查開發計劃。當用戶說「檢查計劃」、「check plan」、「審查計劃」或需要驗證 storage/plans 目錄下的計劃檔案是否有潛在問題時使用
+description: Check a dev plan. Use it when the user says "check plan", "review plan", or needs to make sure plan files under the storage/plans folder have no possible problems.
 ---
 
-# 檢查開發計劃
-## 計劃
-讀取 `$ARGUMENTS.md` 檔案或資料夾，仔細閱讀並檢查開發計劃
+# Check a Dev Plan
+## Plan
+Read the `$ARGUMENTS.md` file or folder, read it with care, and check the dev plan.
 
-## 檢查項目
+## What To Check
 
-### 1. 潛在問題檢查
-- 計劃中的修改是否可能造成現有功能的損壞
-- 是否有遺漏的邊界情況或錯誤處理
-- 是否有效能或安全性方面的隱患
-- 計劃中涉及的檔案或類別是否確實存在於目前的程式碼中
+### 1. Check for possible problems
+- Could the changes in the plan break a feature that already works?
+- Are there missing edge cases or missing error handling?
+- Are there hidden risks in speed or safety?
+- Do the files or classes named in the plan really exist in the current code?
 
-### 2. 清晰度檢查
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 若適合的話，盡量使用 PHP Attribute 和 Laravel Attribute 取代舊的寫法
-- 計劃中是否有描述模糊、語意不明的步驟
-- 每個步驟的預期結果是否明確
-- 計劃中涉及的技術細節是否足夠具體，能夠直接執行
-- 如果計劃包含多個檔案，執行順序是否清楚
-- 如果一個計劃檔案過於龐大或複雜，應分割成多個計劃並重新排定計劃順序
-- 不要用 1-a 2-b 之類的方式撰寫計劃檔案，應用 01 02 撰寫
-- 計畫內不應出現任何程式碼，若有發現必須要求移除
+### 2. Check for clear writing
+- When you write code, pay special heed to how easy it is to test, how easy it is to read, and how low the coupling is.
+- When it fits, try to use PHP Attribute and Laravel Attribute in place of the old way.
+- Are there steps in the plan that are vague or unclear in meaning?
+- Is the wanted result of each step clear?
+- Are the tech details in the plan specific enough to run right away?
+- If the plan covers many files, is the run order clear?
+- If one plan file is too big or too complex, it should be split into many plans and the plan order set again.
+- Do not write the plan file with a style like 1-a 2-b. Use 01 02 instead.
+- There should be no code in the plan. If you find any, you must ask for it to be removed.
 
-### 3. SOLID/IoC 原則檢查
-- **單一職責原則 (SRP)**: 每個類別或模組是否只負責一項職責
-- **開放封閉原則 (OCP)**: 是否透過擴展而非修改來增加功能
-- **里氏替換原則 (LSP)**: 子類別是否能正確替換父類別
-- **介面隔離原則 (ISP)**: 介面是否足夠精簡，避免強迫實作不需要的方法
-- **依賴反轉原則 (DIP)**: 是否依賴抽象而非具體實作，是否正確使用 IoC 容器
+### 3. Check the SOLID/IoC rules
+- **Single Responsibility Principle (SRP)**: does each class or module handle only one job?
+- **Open-Closed Principle (OCP)**: do you add a feature by extending, not by changing?
+- **Liskov Substitution Principle (LSP)**: can a child class stand in for the parent class without breaking it?
+- **Interface Segregation Principle (ISP)**: is the interface lean enough, so it does not force you to implement methods you do not need?
+- **Dependency Inversion Principle (DIP)**: do you depend on an abstract layer, not a concrete build, and do you use the IoC container the right way?
 
-## 注意事項
-- 檢查時務必對照現有程式碼，確認計劃的可行性
-- 如果發現問題，必須明確指出問題所在並提供改善建議
-- 永遠不要假設你知道使用者的意圖，若有任何不清楚的內容，必須先問清楚
-- 檢查計劃中是否存在「選項 A/B」、「建議 XXX」、「可考慮」等未決定的內容。計劃是用來執行的，不是用來討論的。若發現此類內容，必須要求將其改為明確的執行步驟
+## Notes
+- When you check, always compare with the current code to make sure the plan can be done.
+- If you find a problem, you must point out where it is and give advice to make it better.
+- Never assume you know what the user wants. If anything is not clear, you must ask first.
+- Check the plan for undecided content like "option A/B", "suggest XXX", "may consider". A plan is made to be run, not to be talked over. If you find such content, you must ask for it to be changed into clear run steps.

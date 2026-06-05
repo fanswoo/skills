@@ -1,22 +1,22 @@
 ---
 name: plan-create
-description: 建立開發計劃檔案。當用戶說「建立計劃」、「create plan」、「新增開發計劃」或需要在 storage/plans 目錄下建立新的計劃檔案時使用
+description: Create a development plan file. Use this when the user says "create plan", "add a development plan", or needs to make a new plan file in the storage/plans directory.
 ---
 
-# 建立開發計劃
-## 計劃
-在 `./storage/plans/` 目錄下建立一個新的開發計劃資料夾，資料夾命名格式為 `yymmdd-my-plan`（例如 `260401-add-payment-feature`），資料夾內包含至少一個 `*.md` 文件
+# Create Development Plan
+## Plan
+In the `./storage/plans/` directory, make a new development plan folder. Name the folder in the form `yymmdd-my-plan` (for example `260401-add-payment-feature`). The folder must hold at least one `*.md` file.
 
-## 開發計劃注意事項
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 若適合的話，盡量使用 PHP Attribute 和 Laravel Attribute 取代舊的寫法
-- 將所有"待確認"的內容確認清楚才撰寫至計劃
-- 修改前務必仔細研究現有程式碼
-- 在建立開發計劃時，務必確保本次計劃不會造成現有功能的損壞
-- 必須在計劃加上"驗證項目"，確保開發後能驗證功能正常
-- 永遠不要假設你知道使用者的意圖，若有任何不清楚的內容，必須先問清楚再執行
-- 永遠確保程式碼符合 SOLID/IoC 原則
-- 如果計劃龐大，務必在資料夾內建立多個可獨立執行的 `*.md` 計劃，並註明執行計劃順序
-- 計劃中禁止出現「選項 A/B」、「建議 XXX」、「可考慮」等未決定的內容。計劃是用來執行的，不是用來討論的。所有決策必須在寫入計劃前確定，若無法決定則先向用戶確認
-- 不要用 1-a 2-b 之類的方式撰寫計劃檔案，應用 01 02 撰寫
-- 不要在計畫內寫任何程式碼
+## Development Plan Notes
+- When you write code, take care that it is easy to test, easy to read, and low coupled
+- When it fits, use PHP Attribute and Laravel Attribute in place of old ways
+- Confirm all "to be confirmed" items clearly before you write them into the plan
+- Study the current code with care before you make changes
+- When you build the development plan, make sure this plan does not break any current feature
+- You must add "check items" to the plan, so you can confirm the feature works well after the work is done
+- Never assume you know what the user wants. If anything is not clear, ask first before you act.
+- Always make sure the code follows the SOLID/IoC rules
+- If the plan is large, make many `*.md` plans in the folder that can each run on their own, and mark the order to run them
+- The plan must not hold open items like "option A/B", "suggest XXX", or "may think about". A plan is made to run, not to talk about. You must settle all choices before you write the plan. If you cannot settle a choice, ask the user first.
+- Do not write the plan files in a form like 1-a 2-b. Use 01 02 instead.
+- Do not write any code in the plan

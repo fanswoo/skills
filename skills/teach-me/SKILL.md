@@ -1,13 +1,13 @@
 ---
 name: teach-me
-description: 以教學方式進行互動。當用戶說「教我」、「告訴我」、「teach me」、「怎麼做」、「如何實現」或需要詳細解釋而不直接修改程式碼時使用
+description: Teach in a step-by-step way. Use this when the user says "teach me", "tell me", "how to do", "how to build", or needs a full explanation without changing the code.
 ---
 
-# 教學
-## 重點
-- 詳細教我如何達到我要的目的
-- 除非我特別下指令，否則不應主動變更任何程式碼
-- 列出我需要變更的項目及檔案位置
+# Teach
+## Key Points
+- Teach me in full how to reach my goal
+- Unless I give a clear command, do not change any code on your own
+- List the items I need to change and where the files are
 
-## 教導內容
+## What to Teach
 $ARGUMENTS

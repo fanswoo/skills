@@ -1,28 +1,28 @@
 ---
 name: fix
-description: 修復程式碼問題。當用戶說「修復 xxx」、「fix xxx」、「debug xxx」、「排查 xxx」或需要針對特定錯誤進行除錯與修復時使用
+description: Fix code problems. Use this when the user says "fix xxx", "debug xxx", or needs to find and fix a bug for a given error.
 ---
 
-# 修復問題
-## 需求
-修復 `$ARGUMENTS`
+# Fix Problem
+## Need
+Fix `$ARGUMENTS`
 
-## 操作守則
-- 撰寫程式碼時，特別注意其可測試性、高閱讀性、低耦合性
-- 若適合的話，盡量使用 PHP Attribute 和 Laravel Attribute 取代舊的寫法
-- 先仔細研究現有程式碼與錯誤訊息，明確列出錯誤原因，務必等確認問題後，再進行修改
-- 在修改程式碼時，務必確保本次修改不會造成現有功能的損壞
-- 每次修改程式碼後，務必確保沒有留下任何未使用的類別、變數或函式
-- 永遠不要假設你知道使用者的意圖，若有任何不清楚的內容，必須先問清楚再執行
-- 永遠確保程式碼符合 SOLID/IoC 原則
-- 修復後執行相關測試，確認問題已解決且無副作用
+## Rules
+- When you write code, take care that it is easy to test, easy to read, and low coupled
+- When it fits, use PHP Attribute and Laravel Attribute in place of old ways
+- First study the current code and the error message with care. Clearly list the cause of the error. You must confirm the problem before you make changes.
+- When you change code, make sure this change does not break any current feature
+- After each code change, make sure no unused class, variable, or function is left behind
+- Never assume you know what the user wants. If anything is not clear, ask first before you act.
+- Always make sure the code follows the SOLID/IoC rules
+- After the fix, run the related tests to confirm the problem is solved and has no side effect
 
-## 提示
-- 使用 context7 查詢相關套件的使用方式，避免使用不存在的方法
-- 後台管理使用 filament v5，如果需要修改後台相關程式碼，請查詢 filament v5 的使用方式
+## Tips
+- Use context7 to look up how the related package works, so you do not use a method that does not exist
+- The back office uses filament v5. If you need to change back office code, look up how filament v5 works.
 
-### 重要編譯事項
-開發人員會主動開啟編譯模式，永遠不應主動執行編譯動作。如果真的需要編譯，最多只允許你"提醒開發人員編譯"
+### Important Build Note
+The developer will start the build mode on their own. You should never run the build on your own. If a build is truly needed, the most you may do is "remind the developer to build"
 ```bash
 npm run build
 ```

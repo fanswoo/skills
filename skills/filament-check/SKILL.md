@@ -1,68 +1,67 @@
 ---
 name: filament-check
-description: 檢查指定的 Filament 程式碼是否符合 filament-run 規範。當用戶說「檢查 filament」、「filament check」、「檢查 xxx 是否符合 filament 慣例」、「審查 Filament Resource/RelationManager」或需要驗證 Filament 程式碼合規性時使用
+description: Check that the given Filament code follows the filament-run rules. Use this when the user says "check filament", "filament check", "check if xxx follows the filament way", "review a Filament Resource/RelationManager", or needs to confirm that Filament code follows the rules.
 ---
 
-# 檢查 Filament 合規性
+# Check Filament Rules
 
-依據 `filament-run` skill 所列的專案 Filament 慣例，檢查指定範圍的程式碼是否合規。
+Check that the code in the given range follows the project's Filament ways, as listed in the `filament-run` skill.
 
-## 規範來源（單一真實來源）
+## Rule Source (Single Source Of Truth)
 
-**本規範條目一律以 `filament-run` skill 的 `SKILL.md` 為準，每次執行時即時讀取，確保 `filament-run` 調整後本檢查自動跟進、不會遺漏或失準。
+**These rules always come from the `filament-run` skill's `SKILL.md`. Read it live each run. This makes sure that when `filament-run` changes, this check follows on its own and stays right.
 
-執行第一步必須先讀取：
+The first step must read this file:
 
 ```
 /var/www/skills/skills/filament-run/SKILL.md
 ```
 
-讀到的每一條規範（元件使用、Resource 放置、Action 鉤子、Activity Log、v5 Namespace、Select 預設值、RelationManager 撰寫規範……）即為本次檢查的檢查項。**以該檔當下的實際內容為準**，不要依賴本 skill 過去的記憶或下方範例；若該檔新增、刪改條目，檢查項同步增減。
+Each rule you read (component use, Resource placement, Action hooks, Activity Log, v5 Namespace, Select default value, RelationManager writing rules, and so on) is a check item for this run. **Use what is in that file right now.** Do not trust this skill's past memory or the examples below. If that file adds, changes, or drops items, your check items change with it.
 
-## 檢查對象
+## What To Check
 `$ARGUMENTS`
 
-`$ARGUMENTS` 可以是：
-- 單一 Filament 類別的 FQCN（例：`App\Admin\Resources\Articles\ArticleResource`）
-- PHP 命名空間或目錄（例：`App\Admin\Resources\Articles`、`app/Admin/Resources/Articles/`）
-- 單一檔案路徑（例：`app/Admin/Resources/Articles/Schemas/ArticleForm.php`）
+`$ARGUMENTS` can be:
+- The FQCN of one Filament class (like `App\Admin\Resources\Articles\ArticleResource`)
+- A PHP namespace or folder (like `App\Admin\Resources\Articles`, `app/Admin/Resources/Articles/`)
+- One file path (like `app/Admin/Resources/Articles/Schemas/ArticleForm.php`)
 
-若 `$ARGUMENTS` 為空，預設檢查目前 git 變更中（`git status`）涉及的 Filament 檔案。
+If `$ARGUMENTS` is empty, check the Filament files in the current git changes (`git status`) by default.
 
-## 執行流程
+## Run Flow
 
-### 1. 載入規範
-- 讀取上方「規範來源」指定的 `filament-run/SKILL.md`
-- 將其中每一條規範整理成一份**檢查清單**（逐條，含該條的正確做法與禁止事項）
+### 1. Load The Rules
+- Read the `filament-run/SKILL.md` named in "Rule Source" above
+- Turn each rule in it into a **check list** (one by one, with the right way and the banned things for that rule)
 
-### 2. 蒐集範圍
-- 用 Glob/Read 工具列出 `$ARGUMENTS` 範圍下所有相關的 `.php` 檔案，不要用 bash 的 find/grep
-- 完整讀取每個檔案，**不要只看摘要**
-- 識別每個檔案的角色：Resource / Page / RelationManager / Schema（Form）/ Table / Filter / Widget
-- 依檔案角色，套用步驟 1 清單中適用的規範條目
+### 2. Collect The Range
+- Use the Glob/Read tools to list all the `.php` files in the `$ARGUMENTS` range. Do not use bash find/grep
+- Read each file in full. **Do not read just a summary**
+- Find the role of each file: Resource / Page / RelationManager / Schema (Form) / Table / Filter / Widget
+- By the file role, apply the rule items from the step 1 list that fit
 
-### 3. 逐條比對
-- 拿步驟 1 的檢查清單，逐條對照步驟 2 讀到的程式碼
-- 每條規範標記：符合 / 違反 / 不適用（該角色用不到此條）
-- 違反者記錄 `file_path:line_number` 與違反的規範條目
+### 3. Match One By One
+- Take the check list from step 1 and match it, one by one, against the code you read in step 2
+- Mark each rule: pass / fail / not used (this role does not use this rule)
+- For a fail, write down `file_path:line_number` and the rule it broke
 
-### 4. 出報告
-報告格式（中文）：
-1. **範圍**：列出檢查了哪些檔案與其角色
-2. **逐條結果**：依 `filament-run` 規範條目分節，每個違反點列出
-   - `file_path:line_number` + 違反了哪一條規範
-   - 正確做法（引用該條規範的要求）
-3. **整體評估**：合格 / 有違反需修正
-4. **修正建議**：每個違反點對應一個具體可行的修正方向（描述方向即可，不要直接貼整段程式碼）
+### 4. Make A Report
+Report form (in English):
+1. **Range**: list which files you checked and their roles
+2. **One By One Results**: split into parts by `filament-run` rule item. For each fail, list
+   - `file_path:line_number` + which rule it broke
+   - The right way (quote what that rule asks for)
+3. **Overall Check**: pass / has fails that need a fix
+4. **Fix Ideas**: give each fail one clear, doable fix direction (just describe the direction, do not paste a whole block of code)
 
-### 5. 與使用者討論
-- 若全數合格 → 簡短說明即可，不需找碴湊問題
-- 若有違反 → **不要直接動手改**，先呈現報告與修正建議，等使用者決定
-- 違反項較多時用 AskUserQuestion 讓使用者選擇要先處理哪些 / 用哪個方向
+### 5. Talk With The User
+- If all pass → just say so in short. Do not look for small things to fill the report
+- If there are fails → **do not change the code yourself**. First show the report and fix ideas, then wait for the user to choose
+- When there are many fails, use AskUserQuestion to let the user pick which ones to do first / which direction to use
 
-## 注意事項
-- 永遠用中文回覆
-- **規範一律即時讀 `filament-run/SKILL.md`**，不要在本 skill 內維護一份規範副本
-- 只做檢查與討論，**禁止在這個 skill 內直接修改程式碼**；要修改請等使用者授權後切換到 `run` 或 `fix` skill
-- 對 Filament 框架本身要求的固定結構（Resource/Page/Schema 三件套）不要誤判為違反
-- 若 `$ARGUMENTS` 不清楚（找不到對應檔案、命名空間有多義），先用 AskUserQuestion 確認範圍再開始
+## Notes
+- **Always read the rules live from `filament-run/SKILL.md`.** Do not keep a copy of the rules inside this skill
+- Only check and talk. **Do not change any code inside this skill.** To change code, wait for the user to allow it, then switch to the `run` or `fix` skill
+- Do not wrongly mark the fixed structure that the Filament framework itself needs (the Resource/Page/Schema set of three) as a fail
+- If `$ARGUMENTS` is not clear (no file found, or the namespace has more than one meaning), use AskUserQuestion to confirm the range before you start
