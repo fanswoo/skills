@@ -27,14 +27,22 @@ Read the `$ARGUMENTS.md` file or folder, read it with care, and check the dev pl
 - There should be no code in the plan. If you find any, you must ask for it to be removed.
 
 ### 3. Check the SOLID/IoC rules
-- **Single Responsibility Principle (SRP)**: does each class or module handle only one job?
-- **Open-Closed Principle (OCP)**: do you add a feature by extending, not by changing?
-- **Liskov Substitution Principle (LSP)**: can a child class stand in for the parent class without breaking it?
-- **Interface Segregation Principle (ISP)**: is the interface lean enough, so it does not force you to implement methods you do not need?
-- **Dependency Inversion Principle (DIP)**: do you depend on an abstract layer, not a concrete build, and do you use the IoC container the right way?
+Do not write the SOLID rules here. Call the `solid-check` skill and let it do this part, so there is only one place that holds the rules.
+
+- Pull out every class, namespace, or file path the plan will touch, and pass them to `solid-check` as its scope. If the plan touches scopes that are far apart, call it once for each scope.
+- If the plan makes a class that is not in the code yet, pass the closest parent namespace or folder, and judge the planned design by the same rules.
+- Put the report that comes back into this check as section 3. Do not write it again in your own words.
+- Here you check a plan, not code that is already written. So when `solid-check` finds a break, ask for the **plan** to be changed. Do not change any code, and do not run the refactor flow at the end of `solid-check`.
+
+### 4. Settle what is not clear
+When step 1-3 turn up something vague, undecided, or at odds with the current code, do not guess and do not just list it.
+
+- Call the `grilling` skill and walk the user through each open point, one question at a time, until you both hold the same understanding.
+- Call the `domain-modeling` skill while you grill. Put each settled term into `CONTEXT.md`, and record a hard-to-undo decision as an ADR under `docs/adr/`.
+- Then write the answers back into the plan file, so the plan is left with clear run steps and no open items.
 
 ## Notes
 - When you check, always compare with the current code to make sure the plan can be done.
 - If you find a problem, you must point out where it is and give advice to make it better.
 - Never assume you know what the user wants. If anything is not clear, you must ask first.
-- Check the plan for undecided content like "option A/B", "suggest XXX", "may consider". A plan is made to be run, not to be talked over. If you find such content, you must ask for it to be changed into clear run steps.
+- Check the plan for undecided content like "option A/B", "suggest XXX", "may consider". A plan is made to be run, not to be talked over. If you find such content, you must ask for it to be changed into clear run steps. Settle it with step 4.

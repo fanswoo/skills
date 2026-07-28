@@ -14,7 +14,9 @@ Fix `$ARGUMENTS`
 - When you change code, make sure this change does not break any current feature
 - After each code change, make sure no unused class, variable, or function is left behind
 - Never assume you know what the user wants. If anything is not clear, ask first before you act.
-- Always make sure the code follows the SOLID/IoC rules
+- Always make sure the code follows the SOLID/IoC rules. Do not write the rules here. When the fix is done, call the `solid-check` skill on the classes or namespaces you touched and read its report
+  - Fix the breaks your own change brought in, then check again
+  - For a break that was already there before the fix, tell the user and ask first. A bug fix must stay small, so do not refactor it on your own
 - After the fix, run the related tests to confirm the problem is solved and has no side effect
 
 ## Tips
