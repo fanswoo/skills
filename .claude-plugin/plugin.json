@@ -1,9 +1,0 @@
-{
-	"name": "fanswoo-skills",
-	"version": "1.0.0",
-	"description": "Laravel/Filament workflow skills — dev plans, SOLID and Filament convention checks, Eloquent and database naming migrations, Pest fixes, and Tailwind conversion.",
-	"author": {
-		"name": "Yi Yang",
-		"url": "https://github.com/fanswoo"
-	}
-}
