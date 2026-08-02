@@ -1,30 +1,46 @@
 ---
 name: fix-testing
-description: Fix tests. Use this when the user says "test failed", "fix test", or needs to fix the tests for a given class.
+description: Fix a red test — one test failed, or a whole suite went red, under Pest, Vitest, or flutter test. For an error outside the test suite, use the fix skill instead.
 ---
 
-# Fix Tests
-## Need
-Fix the tests for the `$ARGUMENTS` class
+# Fix a Red Test
 
-## Rules
-- When you write code, take care that it is easy to test, easy to read, and low coupled
-- First run the test command once. Find where the test fails with care, then clearly list the cause of the error. You must confirm the problem before you make changes.
-- Do not run many tests at the same time, so the tests do not get in each other's way
+`$ARGUMENTS` names what is red — a test file, a class, pasted failure output, or nothing at all. When it is nothing, run the suite and let the failures name themselves.
 
-## Find the Real Reason First (Most Important)
-A test breaks for one of two reasons. You must use git to tell them apart before you change anything.
+## 1. Reproduce
 
-1. Look at the recent code change with git. Use these to see what changed:
-   - `git status` and `git diff` for work not yet saved
-   - `git log -p -n 5` and `git show <commit>` for the last few commits
-2. Read the broken test. Find which code it calls. Then compare that code with the git change.
-3. Decide the reason, then act:
-   - **The test is out of date.** The code change is right, but the test still checks the old way (old method name, old field, old return shape). Then fix the test so it fits the new code.
-   - **The code change is wrong.** The test is right, and it found a real bug the change made. Then fix the code, not the test. Changing the test here would hide a real bug.
-4. Say out loud which of the two reasons it is, and show the git proof, before you make changes.
-5. When you are not sure which reason it is, stop and ask the user first. Do not guess.
+Name the project from its root marker, then pick the row by the language of the red test. A Laravel project that is red on both sides takes both Laravel rows.
 
-## Tips
-- Use context7 to look up how laravel v11 and dusk work, so you do not use a method that does not exist
-- The back office uses filament v5. If you need to change back office tests, look up how filament v5 works.
+| Project | Red test | Run one file | Also run |
+|---|---|---|---|
+| Laravel — `artisan` in the root | Pest (PHP) — call the `pest-testing` skill for how each test is written | `php artisan test --compact tests/Feature/FooTest.php` | Larastan / PHPStan, Pint |
+| Laravel — `artisan` in the root | Vitest (Vue / TypeScript / JavaScript) | `npx vitest run resources/…/foo.test.ts` | `npm run types:check` |
+| Flutter — `pubspec.yaml` in the root | Dart | `flutter test test/foo_test.dart` | `flutter analyze` |
+
+Run the red test on its own and read the failure. One test file at a time, start to finish — tests run together share state, a database, a module cache, a filesystem, and a neighbour's leftovers will send you chasing the wrong failure.
+
+Done when you can name the assertion that failed and the line of app code it reached.
+
+## 2. Reach a verdict
+
+A test goes red for one of two reasons, and git tells them apart. Read the recent change — `git status` and `git diff` for uncommitted work, `git log -p -n 5` and `git show <commit>` for what landed recently — then compare the code the test reaches against what changed there.
+
+| Verdict | The evidence | What you fix |
+|---|---|---|
+| **Stale test** | The change deliberately moved what the test asserts on — renamed method, new field, different return shape | The test, so it asserts on the new shape |
+| **Regression** | The change altered behaviour it never meant to, and the test caught it | The code — call the `fix` skill. Editing the test here buries a live bug |
+
+State the verdict and quote the diff that proves it before you edit anything. When the evidence supports both readings, or neither, ask the user which it is.
+
+Done when every red test carries a named verdict backed by a diff.
+
+## 3. Carry out the fix
+
+Take the verdicts one at a time, re-running that test file and its `Also run` checks after each. Run the whole suite once at the end.
+
+Done when the suite is green and every test still asserts as much as it did before.
+
+## House rules
+
+- The back office runs Filament v5; look up its testing helpers before you change a back-office test
+- Look a package up with context7 before you reach for a method you have not already seen in this codebase

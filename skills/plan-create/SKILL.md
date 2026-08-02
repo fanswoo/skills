@@ -1,13 +1,13 @@
 ---
 name: plan-create
-description: Create a development plan file. Use this when the user says "create plan", "add a development plan", or needs to make a new plan file in the storage/plans directory.
+description: Create a development plan file. Use this when the user says "create plan", "add a development plan", or needs to make a new plan file in the docs/plan directory.
 ---
 
 # Create Development Plan
 ## Plan
 Read `$ARGUMENTS` as the topic of the plan. If it is empty or not clear, ask the user what the plan is for before you start.
 
-In the `./storage/plans/` directory, make a new development plan folder. Name the folder in the form `yymmdd-my-plan`, where `yymmdd` is today's date (for example `260401-add-payment-feature`). The folder must hold at least one `*.md` file, named in the form `01-my-step.md`.
+In the `./docs/plan/` directory, make a new development plan folder. Name the folder in the form `yymmdd-my-plan`, where `yymmdd` is today's date (for example `260401-add-payment-feature`). The folder must hold at least one `*.md` file, named in the form `01-my-step.md`.
 
 ## Run Flow
 
@@ -26,7 +26,7 @@ Call the `domain-modeling` skill at the same time, so the words and decisions yo
 Do not write the SOLID rules here. Call the `solid-check` skill on the classes or namespaces the plan will touch, and let its report shape the plan.
 - If a class is not in the code yet, pass the closest parent namespace or folder
 - If the plan touches scopes that are far apart, call it once for each scope
-- A break must be settled inside the plan. Do not change any code while you make a plan, and do not run the refactor flow at the end of `solid-check`
+- A break must be settled inside the plan. Do not change any code while you make a plan
 
 ### 3. Then write the plan
 Write the plan file with the words settled in `CONTEXT.md`, so the plan and the glossary use the same names for the same things.

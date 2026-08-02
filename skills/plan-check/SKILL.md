@@ -1,60 +1,57 @@
 ---
 name: plan-check
-description: Check a dev plan. Use it when the user says "check plan", "review plan", or needs to make sure plan files under the storage/plans folder have no possible problems.
+description: Check a development plan under docs/plan. Use when the user asks to check or review a plan, or when another skill needs a plan checked before it runs.
 ---
 
 # Check a Dev Plan
-## Plan
-`$ARGUMENTS` names the plan to check. It may be a single `*.md` plan file or a whole plan folder, and it is looked up under `./storage/plans/`. If `$ARGUMENTS` is empty or matches nothing there, ask the user which plan to check before you start.
 
-Go through the plan with care, and when it is a folder, take the files in the plan order.
+## What To Check
+`$ARGUMENTS` names the plan to check. It may be a single `*.md` plan file or a whole plan folder, and it is looked up under `./docs/plan/`. If `$ARGUMENTS` is empty or matches nothing there, ask the user which plan to check before you start.
+
+Read the whole plan first, and when it is a folder, take the files in the `01-`, `02-` order. Every check below is judged against the current code, so open the files and classes the plan names as you go.
 
 ## Run Flow
 
-### 1. Check for possible problems
+### 1. Check the risk
 - Could the changes in the plan break a feature that already works?
 - Are there missing edge cases or missing error handling?
 - Are there hidden risks in speed or safety?
-- Do the files or classes named in the plan really exist in the current code?
+- **Drift**: do the files, classes, and namespaces the plan names really exist in the current code, and do they still look the way the plan says?
 
-### 2. Check for clear writing
+### 2. Check that it is runnable
+A runnable plan can be handed to `plan-run` and done as written, with nothing left to decide.
+
 - Does each plan file hold all four parts: goal, files touched, run steps, and check items?
-- Are the check items there and can they really be tested? The `plan-run` skill starts its tests from them, so a plan file without them cannot be run.
-- Is the design the plan asks for easy to test, easy to read, and low coupled?
+- Are the check items there, and can each one really be tested? `plan-run` starts its tests from them, so a plan file without them cannot be run.
+- Can each run step be done as written — the action, the tech detail, and the wanted result all specific enough to act on right away?
+- **Open items**: does the plan still carry "option A/B", "suggest XXX", "may consider", or any other undecided wording? A plan is made to be run, not to be talked over. Settle each one in step 5.
+- Does the plan describe the work in prose only? A code block in a plan file is a finding — ask for it to be written back as prose.
 - Where it fits, does the plan use PHP Attribute and Laravel Attribute in place of the old way?
-- Are there steps in the plan that are vague or unclear in meaning?
-- Is the wanted result of each step clear?
-- Are the tech details in the plan specific enough to run right away?
-- If the plan covers many files, is the run order clear?
-- Is the folder named in the `yymmdd-my-plan` form, and is each file named in the `01-my-step.md` form? A style like 1-a 2-b must be changed to 01 02.
-- If one plan file is too big or too complex, it should be split into many plans and the plan order set again.
-- There should be no code in the plan. If you find any, you must ask for it to be removed.
+- Is the folder named in the `yymmdd-my-plan` form, each file named in the `01-my-step.md` form with a zero-padded number, and the run order clear across the files?
+- Is any one plan file too big or too complex to run in one go? Ask for it to be split into many files, with the plan order set again.
 
 ### 3. Check the SOLID/IoC rules
-Do not write the SOLID rules here. Call the `solid-check` skill and let it do this part, so there is only one place that holds the rules.
+Call the `solid-check` skill for this part, so the design rules live in one place.
 
 - Pull out every class, namespace, or file path the plan will touch, and pass them to `solid-check` as its scope. If the plan touches scopes that are far apart, call it once for each scope.
 - If the plan makes a class that is not in the code yet, pass the closest parent namespace or folder, and judge the planned design by the same rules.
-- Put the report that comes back into section 3 of your own report. Do not write it again in your own words.
-- Here you check a plan, not code that is already written. So when `solid-check` finds a break, ask for the **plan** to be changed. Do not change any code, and do not run the refactor flow at the end of `solid-check`.
+- Paste the report that comes back into section 3 of your own report, as it came.
+- A break here is a plan edit: fold the fix into the plan file. The code stays untouched until `plan-run`.
+
+**Done when**: every plan file in scope carries an explicit verdict on all three checks, and every class or path the plan names has been looked up in the current code. A check you did not mention is a check you did not run.
 
 ### 4. Make a report
-Report layout:
-1. **Scope**: list the plan files you checked, in the plan order.
-2. **One section per check**: sections 1, 2, and 3 above, each listing
+1. **Scope**: the plan files you checked, in the plan order.
+2. **One section per check** — risk, runnable, SOLID/IoC — each listing
    - Where it is: the plan file plus the step it sits in, and the code path it clashes with
    - What is wrong, and which way to change the plan
 3. **Overall judgment**: ready to run / room to improve / must be rewritten before it runs.
 
-### 5. Settle what is not clear
-When step 1-3 turn up something vague, undecided, or at odds with the current code, do not guess and do not just list it.
+### 5. Settle the open items
+Every open item steps 1-3 turned up — vague, undecided, or at odds with the current code — is settled with the user here, before the plan is handed back.
 
-- Call the `grilling` skill and walk the user through each open point, one question at a time, until you both hold the same understanding.
+- Call the `grilling` skill and walk through each open item, one question at a time, until you both hold the same understanding.
 - Call the `domain-modeling` skill while you grill. Put each settled term into `CONTEXT.md`, and record a hard-to-undo decision as an ADR under `docs/adr/`.
-- Then write the answers back into the plan file, so the plan is left with clear run steps and no open items.
+- Write the answers back into the plan file, then say the overall judgment again if it moved.
 
-## Notes
-- When you check, always compare with the current code to make sure the plan can be done.
-- If you find a problem, you must point out where it is and give advice to make it better.
-- Never assume you know what the user wants. If anything is not clear, you must ask first.
-- Check the plan for undecided content like "option A/B", "suggest XXX", "may consider". A plan is made to be run, not to be talked over. If you find such content, you must ask for it to be changed into clear run steps. Settle it with step 5.
+**Done when**: every plan file is left with clear run steps and no open items.

@@ -1,9 +1,13 @@
 ---
 name: filament-run
-description: Notes for Filament work. Use it on its own when you write or change Filament code, to keep the project's own Filament ways. It covers the RelationManager writing rule (use the $relatedResource way and do not write any body content in the RelationManager).
+description: Filament work in this project. Use when running a dev task on Filament code, when writing or changing a Resource, Page, Schema, Table, or RelationManager, or when another skill needs the project's Filament rules.
 ---
 
-# Notes for Filament Work
+# Filament Work
+
+A Filament task is a dev task: call the `run` skill and hold its flow — test-first build, then the reviews worked to empty, under its house rules.
+
+This skill is the Filament delta. Every rule below is live while you write, and stays a check item when the reviews come round.
 
 ## Component Use Rules
 

@@ -1,30 +1,47 @@
 ---
 name: fix
-description: Fix code problems. Use this when the user says "fix xxx", "debug xxx", or needs to find and fix a bug for a given error.
+description: Fix a bug — prove the cause, carry the smallest fix, leave it green. Use when the user says "fix" or "debug", reports an error, a stack trace, or wrong behaviour, or when another skill hands a regression back to the code. For a test that went red, use the fix-testing skill instead.
 ---
 
-# Fix Problem
-## Need
-Fix `$ARGUMENTS`
+# Fix a Bug
 
-## Rules
-- When you write code, take care that it is easy to test, easy to read, and low coupled
-- When it fits, use PHP Attribute and Laravel Attribute in place of old ways
-- First study the current code and the error message with care. Clearly list the cause of the error. You must confirm the problem before you make changes.
-- When you change code, make sure this change does not break any current feature
-- After each code change, make sure no unused class, variable, or function is left behind
-- Never assume you know what the user wants. If anything is not clear, ask first before you act.
-- Always make sure the code follows the SOLID/IoC rules. Do not write the rules here. When the fix is done, call the `solid-check` skill on the classes or namespaces you touched and read its report
-  - Fix the breaks your own change brought in, then check again
-  - For a break that was already there before the fix, tell the user and ask first. A bug fix must stay small, so do not refactor it on your own
-- After the fix, run the related tests to confirm the problem is solved and has no side effect
+`$ARGUMENTS` names what is broken — an error message, a stack trace, a class, or a description of the wrong behaviour. When you cannot tell from it what the right behaviour would be, ask the user before you start.
 
-## Tips
-- Use context7 to look up how the related package works, so you do not use a method that does not exist
-- The back office uses filament v5. If you need to change back office code, look up how filament v5 works.
+## 1. Prove the cause
 
-### Important Build Note
-The developer will start the build mode on their own. You should never run the build on your own. If a build is truly needed, the most you may do is "remind the developer to build"
-```bash
-npm run build
-```
+Call the `diagnosing-bugs` skill and hold its loop: one command you have already run that goes **red** on this bug and will go green once it is fixed.
+
+Then name the cause — the line the symptom comes from and why it produces it — and quote the code or the diff that proves it. A cause the red loop has not confirmed is a guess; keep digging until the two agree.
+
+Done when you can paste the red command with its output and state the cause in one sentence.
+
+## 2. Carry the smallest fix
+
+Turn the repro into a regression test where a seam reaches the real bug, watch it go red, then fix. When no such seam exists, say so and fix without one.
+
+Hold to the cause you named — a bug fix stays small. What you notice on the way that is not this bug goes to the user as a note, not into the diff.
+
+Name the project from its root marker and keep its checks green alongside the tests, after every change.
+
+| Project | Keep running |
+|---|---|
+| Laravel — `artisan` in the root | Larastan / PHPStan, Pint; the type check when you touched Vue / TypeScript |
+| Flutter — `pubspec.yaml` in the root | `flutter analyze` |
+
+Done when the loop that was red is green, the whole suite has run green once, and every class, variable, and function your change orphaned is gone.
+
+## 3. Review what you touched
+
+Call `solid-check` on the classes or namespaces you touched, and work its report to empty.
+
+- A break your own fix brought in — carry the fix, then run the check again
+- A break that was there before you started — tell the user and ask; a bug fix stays small, so the refactor is theirs to call
+
+Done when every finding is accounted for: fixed, or raised with the user.
+
+## House rules
+
+- When it fits, use PHP Attribute and Laravel Attribute in place of the old way
+- The back office runs Filament v5; look its API up before you change back-office code
+- Look a package up with context7 before you reach for a method you have not already seen in this codebase
+- Build and commit belong to the dev person. Leave the work uncommitted and tell them it is ready; when a build is truly needed, remind them to run it themselves (`npm run build`)

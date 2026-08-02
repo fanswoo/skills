@@ -1,24 +1,28 @@
 ---
 name: git-push
-description: Git commit and push. Use this when the user says "commit", "push", "git push", or needs to commit changes and push them to the remote.
+description: Commit and push. Use when the user says "commit", "push", or "git push".
 ---
 
 # Git Commit and Push
 
-## Steps
+Sweep every change into one commit and push it, in a single run. The target is a **clean tree**: `git status` reporting nothing left to commit and nothing left to push.
 
-1. Run `git status` to see the current changes
-2. Run `git diff --staged` and `git diff` to see what changed
-3. Run `git log --oneline -5` to see the recent commit style
-4. Based on the changes, write a short commit message (follow the commit style this project already uses)
-5. If the user gives `$ARGUMENTS`, use that text as the commit message
-6. Run these right away, with no need to ask the user:
-   - `git add -A` (add all changes, both unstaged edits and new untracked files)
-   - `git commit -m "message"`
-   - `git push`
+## Run Flow
 
-## Notes
-- You must commit all changes (staged + unstaged + untracked). Do not pick only some files.
-- If there are no changes, tell the user "There are no changes to commit" and stop.
-- Do not commit files with secret data (.env, credentials, and so on).
-- Write the commit message in English. Keep it short and clear.
+### 1. Survey
+Run `git status`, `git diff HEAD`, and `git log --oneline -5` in one batch — the diff is what you describe, the log is the commit style you match.
+
+If the tree is already clean, tell the user "There are no changes to commit" and stop.
+
+### 2. Write the message
+`$ARGUMENTS` is the message when the user supplied one — use it verbatim. Otherwise write your own: English, short, in the style the log shows.
+
+### 3. Ship
+Run these three as one action, straight through:
+- `git add -A` — every change goes in: staged edits, unstaged edits, and untracked files alike
+- `git commit -m "message"`
+- `git push` — the current branch, as it stands
+
+Secrets stay out of the commit: if the survey turned up `.env`, keys, or credential files, `git reset` those paths after staging and name them to the user.
+
+**Done when**: `git status` shows a **clean tree** — working tree clean, branch in sync with its remote — and you have reported the commit subject and the branch it went to.
