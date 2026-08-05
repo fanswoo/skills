@@ -1,6 +1,6 @@
 # fanswoo skills
 
-Laravel/Filament workflow skills — dev plans, SOLID and Filament convention checks, Pest fixes, and Tailwind styling.
+Workflow skills — dev plans, SOLID and Filament convention checks, Pest fixes, and Tailwind styling.
 
 ## Install
 
@@ -44,6 +44,44 @@ an `## Agent skills` block into whichever of `CLAUDE.md` / `AGENTS.md` already e
 never a duplicate block.
 
 Afterwards you can edit `docs/agents/*.md` by hand. Re-run the skill only to switch trackers or start over.
+
+## Talking first
+
+```
+/discuss <question>
+```
+
+For the conversation before there is anything to plan. It reads `CONTEXT.md` and the ADRs, then opens the
+code the question turns on, and only then replies — every claim cited as `file_path:line_number`, anything
+the code does not answer named as an unknown. The run is **read-only**: prose in the chat, nothing written.
+
+It ends at the reply and points onward — `plan-create` or `run` when you want it built, `grilling` to have
+your own thinking stress-tested, `research` for a package or external API, `domain-modeling` to record a
+term or decision the talk settled.
+
+Claude never picks it up on its own; you invoke it.
+
+## Reporting on the code
+
+```
+/report <scope>
+```
+
+Researches this project and writes it up as a file. A scope narrows it to a subsystem, a flow, or a
+question; leave it empty for the whole project. **Touches no code** — the only thing it writes is the
+report.
+
+It reads the domain docs, then **sweeps** the scope breadth-first — every directory, manifest, entry
+point, and the test tree — before **drilling** into what the sweep raised: each file read in full,
+followed out to its callers and its tests, each main flow traced end to end. Nothing reaches the page
+until it is **grounded** at a `file_path:line_number`; what the code does not answer is listed as an
+unknown rather than filled in from memory.
+
+Output: `.scratch/<yymmdd-slug>/report.md`, on a fixed skeleton — What it is, How it is built, How it
+runs, Domain, Key flows, Tests, Findings, Unknowns. Unlike `spec.md`, a report is a snapshot of the
+code as it stands, so it cites paths throughout. Findings and Unknowns come back in the chat too.
+
+Claude never picks it up on its own; you invoke it.
 
 ## Planning a feature
 
@@ -130,6 +168,8 @@ All four are `disable-model-invocation: true` — you invoke them, Claude never 
 
 | Skill | Use when |
 | --- | --- |
+| `discuss` | Talking something through — researched against the code, answered in prose, no code written |
+| `report` | Researching this project and writing it up as a file, cited to the code |
 | `plan-create` | Breaking a feature down — grill the ask, pick test seams, write the spec, slice into tickets |
 | `plan-check` | Reviewing a plan before it runs |
 | `plan-run` | Running a plan from the issue tracker |
