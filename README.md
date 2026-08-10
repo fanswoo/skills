@@ -85,7 +85,8 @@ Claude never picks it up on its own; you invoke it.
 
 ## Planning a feature
 
-Three skills, in order. Each stops at a gate you have to clear — none of them runs to the end on its own.
+Three skills, in order. The first two are interviews and end at a gate you clear; `plan-run` gates once at
+the top, then runs the whole plan.
 
 ```
 /plan-create <topic>  →  /plan-check <plan>  →  /plan-run <plan>
@@ -132,10 +133,16 @@ A break here is a **plan edit** — the code stays untouched.
 
 ### `/plan-run <plan>`
 
-Works the **frontier**: tickets that are `ready-for-agent` with every blocker already `resolved`, lowest
-number first. Per ticket it sets `Status: claimed`, calls `run` to build it, walks the check items naming
-the test or command that confirms each one, sets `Status: resolved`, then works the frontier again —
-finishing one ticket can unblock several.
+Opens on a **briefing** — one message, before the first ticket is claimed, carrying every question the
+plan turns on. Then it works the **frontier**: tickets that are `ready-for-agent` with every blocker
+already `resolved`, lowest number first. Per ticket it sets `Status: claimed`, calls `run` to build it,
+walks the check items naming the test or command that verifies each one, sets `Status: resolved`, then
+works the frontier again — finishing one ticket can unblock several. When the frontier runs dry it closes
+on a **debrief**.
+
+Between those two messages it does not stop: a question it can settle itself becomes an `Assumed:` line in
+the debrief, and a ticket whose check items no in-scope fix will pass is left `ready-for-human` while the
+rest of the plan carries on. Only a **hard stop** interrupts — see `briefing`.
 
 A ticket with no check items cannot be run; it sends you to `plan-check` first.
 
@@ -183,6 +190,8 @@ All four are `disable-model-invocation: true` — you invoke them, Claude never 
 | `frontend-design` | Building web components, pages, or applications |
 | `git-push` | "commit", "push", "git push" |
 | `install-dependencies` | Pulling in the upstream skills the ones above call into |
+| `briefing` | Called by the ones above, never by you — the one opening interview, and the bar for what may interrupt a run after it |
+| `debrief` | Called by the ones above, never by you — the written close: what was built, what was assumed, what was left standing |
 
 ## Conventions
 
