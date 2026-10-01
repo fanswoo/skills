@@ -80,6 +80,7 @@ needs-triage → needs-info → ready-for-agent → claimed → resolved
 ```
 
 - `needs-triage` / `needs-info` / `ready-for-agent` / `ready-for-human` / `wontfix` — written by `/plan-check` and `/triage`.
+- `ready-for-human` — also written by `/plan-run` when a check item has no fix in its reach.
 - `claimed` — written by `/plan-run` before it starts work on a ticket.
 - `resolved` — written by `/plan-run` once every check item passes.
 
