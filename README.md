@@ -85,8 +85,9 @@ Claude never picks it up on its own; you invoke it.
 
 ## Planning a feature
 
-Three skills, in order. The first two are interviews and end at a gate you clear; `plan-run` gates once at
-the top, then runs the whole plan.
+Three skills, in order. `plan-create` interviews you, then picks the seams and cuts the plan on its own.
+`plan-check` is an interview that ends at a gate you clear. `plan-run` gates once at the top, then runs
+the whole plan.
 
 ```
 /plan-create <topic>  →  /plan-check <plan>  →  /plan-run <plan>
@@ -100,15 +101,15 @@ Turns a feature idea into a spec plus numbered tickets on the tracker. **Touches
    same understanding. Settled terms go into `CONTEXT.md` immediately; a hard-to-undo decision becomes
    an ADR under `docs/adr/`.
 2. **Picks the seams** — where the feature gets tested. Prefers existing seams, takes the highest one,
-   uses as few as possible; one is ideal. **Waits for your answer** before writing anything. Then writes
-   `spec.md`.
+   uses as few as possible; one is ideal. **Picks them on its own**, then writes `spec.md`.
 3. **Slices into tracer bullets** — thin vertical slices through every layer, each demoable on its own
-   and sized to one fresh context window, each declaring which tickets block it. Shows you a numbered
-   list and asks three questions: is the granularity right, does each blocking edge really gate,
-   should anything be merged or split. **Reworks until you approve.**
+   and sized to one fresh context window, each declaring which tickets block it. It checks the cut
+   itself on three things — is each ticket the right size, does each one wait for exactly the tickets
+   it needs, should anything be merged or split. **It does not ask you.**
 4. **Fills in the how** — calls `solid-check` on the namespaces the tickets will touch and lets the
    report shape them, then writes each ticket's Files touched and Run steps.
 5. **Self-checks** — calls `plan-check` on what it just wrote and settles the findings before handing back.
+   It fixes a finding on the seams or the cut by itself, without asking you.
 
 A mechanical change whose blast radius fans across the codebase is a **wide refactor**; no vertical slice
 can land green on it, so it gets sequenced as expand–contract instead
@@ -162,7 +163,7 @@ A ticket with no check items cannot be run; it sends you to `plan-check` first.
 - `/implement` — builds from the spec or tickets using `/tdd` at the agreed seams, then `/code-review`
 
 **This repo does not use `to-spec` or `to-tickets`** — `plan-create` covers both, and adds the seam
-negotiation, the `solid-check` pass, and the Laravel/Filament conventions. See
+choice, the `solid-check` pass, and the Laravel/Filament conventions. See
 [issue-tracker.md](docs/agents/issue-tracker.md#L16). If you do run `to-spec` by hand, note that it
 labels the spec `ready-for-agent`, which is wrong under these conventions: a spec is never
 agent-grabbable, only tickets carry a `Status:` line.
