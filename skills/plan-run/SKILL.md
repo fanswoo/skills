@@ -31,7 +31,7 @@ Set its `Status:` line to `claimed` and save the file before you touch any code.
 ### 2. Build it
 Call the `run` skill with this ticket as the task, telling it **briefing held** and handing over what the plan's briefing settled. Its "Run steps" are the work, its "Files touched" are the scope, and its debrief folds into the plan's.
 
-At `run`'s review step, the fixed point is the commit the plan started from, and the spec is `spec.md` plus the tickets resolved so far, so the diff and the spec cover the same work. A finding there that must be solved is fixed, even one that stood before the plan started.
+At `run`'s review step, the fixed point is the commit the plan started from, and the spec is `spec.md` plus the tickets resolved so far, so the diff and the spec cover the same work. Settle its findings by the **must be solved** rule above. For a break that stood before the plan, that rule takes the place of `run`'s.
 
 ### 3. Walk the check items
 Take the check items from this ticket one by one and verify each one really passes.

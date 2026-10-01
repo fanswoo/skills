@@ -11,14 +11,14 @@ The plan lives on the repo's issue tracker. Read `docs/agents/issue-tracker.md` 
 
 Do not change any code while you make a plan.
 
-The **cut** — how the work splits into tickets, how big each one is, which waits for which — is yours to pick, and so are the seams. Pick both by the rules below and keep going.
+The seams and the **cut** — how the work splits into tickets — are yours to pick. Pick them by the rules in steps 2 and 3, and keep going.
 
 ## Run Flow
 
 ### 1. Grill the ask
 Never write a plan straight from a one-line ask. Call the `grilling` and `domain-modeling` skills together and interview the user until you both hold the same understanding. If those skills are not installed here, run the interview yourself: one question at a time, look up every fact in the code, and put only real decisions to the user.
 
-- When a term is settled, put it into `CONTEXT.md` right away. Do not save them all for the end
+- When a term is settled, put it into `CONTEXT.md` right away
 - When a decision is hard to undo, would puzzle a later reader, and came from a real trade-off, record it as an ADR under `docs/adr/`
 - `CONTEXT.md` holds words only. How-to-build detail belongs in the ticket, not there
 
@@ -29,7 +29,7 @@ A **seam** is the place the feature gets tested. Prefer a seam that already exis
 
 Then write `spec.md` with the words settled in `CONTEXT.md`, so the spec and the glossary use the same names for the same things.
 
-**Done when**: `spec.md` carries all four parts, with the seams you picked and no file path anywhere in it.
+**Done when**: `spec.md` carries all four parts, its seams meet the rules above, and no file path appears anywhere in it.
 
 ### 3. Slice the work into tickets
 Cut the spec into **tracer bullets** — thin slices that each prove the whole path works.
@@ -43,12 +43,10 @@ Give each ticket its **blocking edges**: the tickets that must finish before it 
 
 One mechanical change whose **blast radius** fans across the whole codebase is a **wide refactor**, and no vertical slice can land green on it. Sequence those as expand–contract instead — see [WIDE-REFACTOR.md](WIDE-REFACTOR.md).
 
-Then check the cut yourself on three things — is each ticket the right size, does each one wait for exactly the tickets it needs, should anything be merged or split — and change it until all three are right.
-
-**Done when**: the cut is right on all three, and every ticket is written to `issues/NN-<slug>.md` in dependency order, blockers first, each carrying its What to build and its check items.
+**Done when**: you have checked the cut yourself — each ticket the right size, each one waiting for exactly the tickets it needs, nothing left to merge or split — and every ticket is written to `issues/NN-<slug>.md` in dependency order, blockers first, each carrying its What to build and its check items.
 
 ### 4. Fill in how each ticket gets built
-Do not write the SOLID rules here. Call the `solid-check` skill on the classes or namespaces the tickets will touch, and let its report shape them.
+Call the `solid-check` skill on the classes or namespaces the tickets will touch, and let its report shape them.
 
 - If a class is not in the code yet, pass the closest parent namespace or folder
 - If the tickets touch scopes that are far apart, call it once for each scope
