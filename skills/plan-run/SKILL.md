@@ -17,6 +17,11 @@ Call the `briefing` skill once, before you claim the first ticket. Its span is e
 - the fixed point is the commit the plan starts from
 - the open items are whatever `spec.md` and the tickets leave undecided, plus which plan to run when `$ARGUMENTS` matched nothing on the tracker
 
+## Problems you find
+A problem **must be solved** when the plan cannot be done without it — a check item that will not pass, a red test, a bug in code the plan needs. Solve it right away and keep going, wherever the fix sits, and whether this plan made the problem or found it. Call the `fix` skill for a bug and the `fix-testing` skill for a red test. A fix outside the ticket's Files touched gets its own line under **Built** in the debrief.
+
+Such a problem stays standing only when no fix is in your reach — it needs access you do not have, or a person to test it by hand. A problem the plan can be done without — a refactor, a style finding — follows `run`'s own rule.
+
 ## Run Flow
 Work the **frontier**: the tickets that are `ready-for-agent` and whose every `Blocked by` entry is already `resolved`. When more than one qualifies, take the lowest number. Finish one ticket and open the next in the same run — the frontier carries you to the end of the plan, and finishing a ticket can unblock several.
 
@@ -26,12 +31,12 @@ Set its `Status:` line to `claimed` and save the file before you touch any code.
 ### 2. Build it
 Call the `run` skill with this ticket as the task, telling it **briefing held** and handing over what the plan's briefing settled. Its "Run steps" are the work, its "Files touched" are the scope, and its debrief folds into the plan's.
 
-At `run`'s review step, the fixed point is the commit the plan started from, and the spec is `spec.md` plus the tickets resolved so far, so the diff and the spec cover the same work.
+At `run`'s review step, the fixed point is the commit the plan started from, and the spec is `spec.md` plus the tickets resolved so far, so the diff and the spec cover the same work. A finding there that must be solved is fixed, even one that stood before the plan started.
 
 ### 3. Walk the check items
 Take the check items from this ticket one by one and verify each one really passes.
 - Name the test or run that covers each check item, so nothing is marked done on a guess
-- A check item that will not pass means the ticket is not done. Fix it; when no fix inside this ticket's scope will make it pass, set its `Status:` line to `ready-for-human`, name the failing item in the file, and work the frontier again — the plan carries on without it and the ticket lands in the debrief
+- A check item that will not pass means the ticket is not done. Fix it. Only when no fix is in your reach, set its `Status:` line to `ready-for-human`, name the failing item in the file, and work the frontier again. The plan carries on without it, and the ticket lands in the debrief
 
 ### 4. Resolve the ticket
 Set its `Status:` line to `resolved`, then work the frontier again.

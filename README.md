@@ -142,8 +142,10 @@ works the frontier again — finishing one ticket can unblock several. When the 
 on a **debrief**.
 
 Between those two messages it does not stop: a question it can settle itself becomes an `Assumed:` line in
-the debrief, and a ticket whose check items no in-scope fix will pass is left `ready-for-human` while the
-rest of the plan carries on. Only a **hard stop** interrupts — see `briefing`.
+the debrief. When it finds a problem the plan cannot be done without — a check item that will not pass, a
+red test, a bug in code the plan needs — it fixes it right away, even outside the ticket's scope or when
+the problem was there before the plan. A ticket is left `ready-for-human` only when no fix is in reach,
+and the rest of the plan carries on. Only a **hard stop** interrupts — see `briefing`.
 
 A ticket with no check items cannot be run; it sends you to `plan-check` first.
 
