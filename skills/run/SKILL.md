@@ -51,4 +51,4 @@ Call the `debrief` skill to close.
 
 - When it fits, use PHP Attribute and Laravel Attribute in place of the old way
 - Remove every class, variable, and function your change orphaned
-- Build and commit belong to the dev person. Leave the work uncommitted; when a build is truly needed, remind them to run it themselves (`npm run build`)
+- When a build is truly needed, remind the dev person to run it themselves (`npm run build`)

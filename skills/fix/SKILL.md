@@ -44,4 +44,4 @@ Done when every finding is accounted for: fixed, or raised with the user.
 - When it fits, use PHP Attribute and Laravel Attribute in place of the old way
 - The back office runs Filament v5; look its API up before you change back-office code
 - Look a package up with context7 before you reach for a method you have not already seen in this codebase
-- Build and commit belong to the dev person. Leave the work uncommitted and tell them it is ready; when a build is truly needed, remind them to run it themselves (`npm run build`)
+- When a build is truly needed, remind the dev person to run it themselves (`npm run build`)
